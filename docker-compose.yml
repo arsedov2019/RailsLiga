@@ -6,10 +6,10 @@ services:
       dockerfile: Dockerfile
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     volumes:
-      - ./api_gateway:/api_gateway
+      - ./api_gateway:/usr/src
     ports:
       - "3000:3000"
-  booking:
+  reservations:
     build: ./reservations
     command: rails s -b 0.0.0.0
     volumes:

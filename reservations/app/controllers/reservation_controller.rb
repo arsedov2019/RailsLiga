@@ -17,7 +17,8 @@ class ReservationController < ApplicationController
   end
 
   def show
-    render json: {result: "reservations#show"}
+    result = Reservation.find_by(num_reservations: params[:num_reservations])
+    render json: {result: result}
   end
 
 

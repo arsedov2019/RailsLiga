@@ -1,5 +1,9 @@
-class GatewayApi<Grape::API
+require 'rest-client'
+require 'json'
+require 'grape-swagger'
+
+class GatewayApi < Grape::API
+  mount ReservationApi
+
   add_swagger_documentation
-  format :json
-  mount TestApi
 end
