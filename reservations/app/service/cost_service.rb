@@ -2,7 +2,7 @@ class CostService
 
   def initialize(params)
     @params = params
-    @tickets_sold = tickets_sold
+    @tickets_sold = 1 #ЗАГЛУШКА
   end
   def cost
     category = Category.find_by(category: @params[:category])
