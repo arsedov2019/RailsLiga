@@ -1,5 +1,8 @@
 class CostController < ApplicationController
+
   def price
-    render json: {result: "cost#price"}
+    cost = CostService.new(params)
+    render json: {result: cost.cost}
   end
+
 end
