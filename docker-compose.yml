@@ -9,9 +9,11 @@ services:
       - ./api_gateway:/usr/src
     ports:
       - "3000:3000"
+    depends_on:
+      - reservations
   reservations:
     build: ./reservations
-    command: rails s -b 0.0.0.0
+    command: rails s -p 4000 -b 0.0.0.0
     volumes:
       - ./reservations:/usr/src
     ports:

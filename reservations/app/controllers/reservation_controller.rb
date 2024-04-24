@@ -6,19 +6,29 @@ class ReservationController < ApplicationController
                                        num_reservations: rand(1..1000),
                                        category: params[:category],
                                        cost: cost.cost)
-    TimerDestroyJob.perform_in(1.minute,reservations.id)
+    TimerDestroyJob.perform_in(5.minute,reservations.id)
     render json: {result: reservations}
   end
 
 
   def destroy
-    Reservation.find(params[:id]).destroy
-    render json: {head: :no_content}
+    Reservation.find_by(num_reservations: params[:num_reservations]).destroy
+
+    if result
+      render json: {head: :no_content}
+    else
+      render json: {head: :not_found}
+    end
+
   end
 
   def show
     result = Reservation.find_by(num_reservations: params[:num_reservations])
-    render json: {result: result}
+    if result
+      render json: {result: true}
+    else
+      render json: {head: :not_found}
+    end
   end
 
 
