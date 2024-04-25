@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema[7.1].define(version: 2024_04_25_214523) do
   create_table "purchased_tickets", force: :cascade do |t|
-    t.integer "ticket_number"
+    t.string "ticket_number"
     t.string "category"
     t.date "event_date"
     t.string "fullname"
