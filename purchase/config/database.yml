@@ -20,6 +20,26 @@ test:
   <<: *default
   database: storage/test.sqlite3
 
-production:
-  <<: *default
-  database: storage/production.sqlite3
+#production:
+#  <<: *default
+#  database: storage/production.sqlite3
+#
+#default: &default
+#  adapter: postgresql
+#  host: db
+#  user: user
+#  password: password
+#  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+#  timeout: 5000
+#
+#development:
+#  <<: *default
+#  database: development
+#
+#test:
+#  <<: *default
+#  database: test
+#
+#production:
+#  <<: *default
+#  database: production
