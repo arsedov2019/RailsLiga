@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2024-04-23
+  num_reservations: 1
+  num_ticket: 1
+  cost: 1
+
+two:
+  date: 2024-04-23
+  num_reservations: 1
+  num_ticket: 1
+  cost: 1
