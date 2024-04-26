@@ -23,6 +23,18 @@ services:
       - sidekiq
     environment:
       REDIS_URL: redis://redis:6379/0
+  purchase:
+    build: ./purchase
+    command: rails s -p 5000 -b 0.0.0.0
+    volumes:
+      - ./purchase:/usr/src
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+      - reservations
+    environment:
+      REDIS_URL: redis://redis:6379/0
   sidekiq:
     build: ./reservations
     command: sidekiq

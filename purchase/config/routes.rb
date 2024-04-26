@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  resources :purchased_tickets
 
-  get '/purchased_tickets/:ticket_number', to: 'patients#show'
+  get '/purchased_ticket', to: 'purchased_tickets#show'
+  get '/count_purchased_ticket', to: 'purchased_tickets#count_ticket'
+  post '/buy_ticket', to: 'purchased_tickets#create'
 end
