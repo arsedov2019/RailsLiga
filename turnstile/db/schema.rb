@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema[7.1].define(version: 2024_04_25_214513) do
   create_table "black_lists", force: :cascade do |t|
-    t.integer "ticket_num"
+    t.string "ticket_num"
     t.integer "document_num"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

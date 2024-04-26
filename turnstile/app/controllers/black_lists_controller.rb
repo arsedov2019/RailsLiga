@@ -6,10 +6,10 @@ class BlackListsController < ApplicationController
     @black_lists = BlackList.all
 
     if params[:ticket_num].present?
-      @black_lists = @black_lists.where(ticket_num: params[:ticket_num])
+      black_lists = @black_lists.where(ticket_num: params[:ticket_num])
     end
 
-    render json: @black_lists
+    render json: black_lists
   end
 
   # GET /black_lists/1

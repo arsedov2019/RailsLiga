@@ -1,3 +1,4 @@
+
 class JournalsController < ApplicationController
   before_action :set_journal, only: %i[ show update destroy ]
 
@@ -35,20 +36,39 @@ class JournalsController < ApplicationController
 
   # POST /journals
   def create
+    response = RestClient.get('http://purchase:5001/ticket', params: { ticket_number: params[:ticket_num] })
+    ticket = JSON.parse(response.body)
 
-    response = RestClient.get('http://purchase:5001/ticket',
-                              params: { ticket_num: params[:ticket_num]})
-    JSON.parse(response.body)
+    is_blocked = BlackList.find_by(ticket_num: ticket[:ticket_num])
 
+    success = is_blocked.nil?
 
-    @journal = Journal.new(journal_params)
+    unless success
+      is_enter = false
+    else
+      existing_entry = Journal.where(ticket_num: params[:ticket_num]).order(date: :desc).first
+      is_enter = existing_entry.nil? || existing_entry.is_enter != params[:is_enter]
 
-    if @journal.save
+      unless is_enter
+        success = false
+      end
+
+      if ticket[:document_num] != params[:document_num] || ticket[:category] != params[:category]
+        success = false
+      end
+    end
+
+    @journal = Journal.new(journal_params )
+
+    @journal.update!(name: ticket["fullname"], is_enter: is_enter,status: success )
+
+    if success && @journal.save
       render json: @journal, status: :created, location: @journal
     else
       render json: @journal.errors, status: :unprocessable_entity
     end
   end
+
 
   # PATCH/PUT /journals/1
   def update
@@ -74,4 +94,5 @@ class JournalsController < ApplicationController
     def journal_params
       params.require(:journal).permit(:ticket_num, :category, :document_num, :name, :status, :is_enter, :date)
     end
-end
+  end
+

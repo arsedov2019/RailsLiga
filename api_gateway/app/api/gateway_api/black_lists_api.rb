@@ -8,7 +8,7 @@ class GatewayApi
 
       desc "Получение билета по номеру"
       params do
-       requires :ticket_num, type: Integer 
+       requires :ticket_num, type: String
       end
       get do
         response = RestClient.get('http://turnstile:8888/black_lists',
@@ -18,7 +18,7 @@ class GatewayApi
 
       desc "Блокирование билета"
       params do
-        requires :ticket_num, type: Integer, desc: "Номер билета"
+        requires :ticket_num, type: String, desc: "Номер билета"
         requires :document_num, type: Integer, desc: "Номер документа"
       end
       post do

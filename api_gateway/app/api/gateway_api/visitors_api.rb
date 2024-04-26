@@ -40,40 +40,15 @@ class GatewayApi
       end
       post do
 
-        is_blocked = RestClient.get('http://turnstile:8888/black_lists', params: { ticket_num: params[:ticket_num] })
-
-        is_blocked = JSON.parse(is_blocked.body);
-
-        success = true
-
-        unless is_blocked.empty?
-          success = false
-          is_enter = false
-        else
-          existing_entry = RestClient.get('http://turnstile:8888/journals', params: { ticket_num: params[:ticket_num], sort: '-date', limit: 1 })
-          # is_enter = true
-          existing_entry = JSON.parse(existing_entry.body);
-          if existing_entry.empty? || existing_entry[:is_enter] != params[:is_enter]
-            is_enter = true
-          else 
-            is_enter = false
-            success = false
-          end
-
-          if ticket[:document_num] != params[:document_num] || ticket[:category] != params[:category]
-            success = false
-          end
-        end
-
         response = RestClient.post('http://turnstile:8888/journals',
                                       {
                                         ticket_num: params[:ticket_num],
                                         category: params[:category],
                                         date: Time.now,
-                                        name: ticket[:name],
-                                        status: success,
-                                        is_enter: is_enter,
-                                        document_num: ticket[:document_num]
+                                        name: nil,
+                                        status: nil,
+                                        is_enter: nil,
+                                        document_num: params[:document_num]
                                       }.to_json,
                                       { content_type: :json, accept: :json })
                                      
