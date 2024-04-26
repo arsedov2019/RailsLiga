@@ -202,6 +202,8 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.7.1)
+    nokogiri (1.16.4-aarch64-linux)
+      racc (~> 1.4)
     nokogiri (1.16.4-x64-mingw-ucrt)
       racc (~> 1.4)
     nokogiri (1.16.4-x86_64-linux)
@@ -362,6 +364,10 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
+<<<<<<< HEAD
+=======
+    sqlite3 (1.7.3-aarch64-linux)
+>>>>>>> origin/tanya
     sqlite3 (1.7.3-x64-mingw-ucrt)
     sqlite3 (1.7.3-x86_64-linux)
     stringio (3.1.0)
@@ -390,6 +396,10 @@ GEM
     zeitwerk (2.6.13)
 
 PLATFORMS
+<<<<<<< HEAD
+=======
+  aarch64-linux
+>>>>>>> origin/tanya
   x64-mingw-ucrt
   x86_64-linux
 
@@ -428,7 +438,11 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
+<<<<<<< HEAD
    ruby 3.1.4p223
+=======
+   ruby 3.1.5p252
+>>>>>>> origin/tanya
 
 BUNDLED WITH
    2.3.22
