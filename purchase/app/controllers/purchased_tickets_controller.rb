@@ -5,7 +5,7 @@ class PurchasedTicketsController < ApplicationController
   def show
     ticket = PurchasedTicket.find_by(ticket_number: params[:ticket_number])
     if ticket
-      render json: ticket #, only: [:ticket_number, :category, :event_date, :fullname, :birthdate, :document_number, :document_type]
+      render json: ticket
     else
       render status: :not_found, json: {head: :not_found, error: "Билет с таким номером не найден."}
     end
@@ -89,7 +89,7 @@ class PurchasedTicketsController < ApplicationController
   end
 
 
-  # это явно можно было бы как-то по умному сделать.
+  # это явно можно было бы как-то по умному сделать. =(
   private
   Category = ["VIP", "FAN"]
 
