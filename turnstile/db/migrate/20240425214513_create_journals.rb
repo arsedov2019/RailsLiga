@@ -7,7 +7,7 @@ class CreateJournals < ActiveRecord::Migration[7.1]
       t.string :name
       t.boolean :status
       t.boolean :is_enter
-      t.integer :document_num
+      t.string :document_num
       
       t.timestamps
     end

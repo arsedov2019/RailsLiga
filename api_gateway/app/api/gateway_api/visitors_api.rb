@@ -36,7 +36,7 @@ class GatewayApi
       params do
         requires :ticket_num, type: String, desc: "Номер билета"
         requires :category, type: String, values: %w[VIP FAN], desc: "Категория билета"
-        requires :document_num, type: Integer, desc: "Номер документа"
+        requires :document_num, type: String, desc: "Номер документа"
         requires :is_enter, type: Boolean, desc: "Взодим или выходим"
       end
       post do
