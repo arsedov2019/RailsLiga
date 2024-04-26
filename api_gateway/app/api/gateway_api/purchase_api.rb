@@ -6,7 +6,7 @@ class GatewayApi
     resource :purchase do
       desc "Получение информации о количестве купленных билетов."
       params do
-        requires :category, type: String, desc: "Категория места"
+        requires :category, type: String, values: %w[VIP FAN], desc: "Категория места"
         requires :event_date, type: Date, desc: "Дата бронирования"
       end
 
@@ -31,20 +31,16 @@ class GatewayApi
       desc "Покупка билета"
       params do
         requires :num_reservations, type: Integer, desc: "Номер брони"
-        requires :category, type: String, desc: "Категория места"
-        requires :event_date, type: Date, desc: "Дата бронирования"
         requires :fullname, type: String, desc: "ФИО"
         requires :birthdate, type: Date, desc: "Дата рождения"
         requires :document_number, type: String, desc: "Номер и серия документа"
-        requires :document_type, type: String, desc: "Тип документа"
+        requires :document_type, type: String, values: %w[PASSPORT BIRTH_CERTIFICATE DRIVER_LICENSE], desc: "Тип документа"
       end
 
 
       post do
         response = RestClient.post("http://purchase:5001/buy_ticket",
                                   params: { num_reservations: params[:num_reservations],
-                                            category: params[:category],
-                                            event_date: params[:event_date],
                                             fullname: params[:fullname],
                                             birthdate: params[:birthdate],
                                             document_number: params[:document_number],
