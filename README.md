@@ -9,7 +9,7 @@
 
 ## Список компонентов 
 
-[](./assest/images/components.jpg)
+![](./assest/images/components.jpg)
 
 
 ## Запуск проекта
