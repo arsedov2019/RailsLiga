@@ -11,6 +11,17 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_04_25_214523) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.integer "c_cost"
+    t.string "category"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "quantity", default: 100, null: false
+  end
+
   create_table "purchased_tickets", force: :cascade do |t|
     t.string "ticket_number"
     t.string "category"
@@ -19,6 +30,15 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_25_214523) do
     t.date "birthdate"
     t.string "document_number"
     t.string "document_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "reservations", force: :cascade do |t|
+    t.date "date"
+    t.integer "num_reservations"
+    t.string "category"
+    t.integer "cost"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
