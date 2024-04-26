@@ -43,10 +43,7 @@ class PurchasedTicketsController < ApplicationController
       return
     end
 
-    unless check_category(@params[:category])
-      render status: :bad_request, json: {error: :bad_request, description: "Params category invalid"}
-      return
-    end
+    result_hash = result["result"]
 
     birthdate = date_parse(@params[:birthdate])
 
@@ -60,26 +57,20 @@ class PurchasedTicketsController < ApplicationController
       return
     end
 
-    event_date = date_parse(@params[:event_date])
-    unless event_date
-      render status: :bad_request, json: {error: :bad_request, description: "Params event date invalid"}
-      return
-    end
-
-    if PurchasedTicket.where(event_date: @params[:event_date],
+    if PurchasedTicket.where(event_date: result_hash["date"],
                              document_number: @params[:document_number],
                              document_type: @params[:document_type]).size != 0
       render status: :bad_request, json: {error: :bad_request, description: "Нou have already bought a ticket for this day."}
       return
     end
 
-
-    ticketN = count_tickets_bu_date_category(@params[:category], event_date).to_s + @params[:category] + event_date.day.to_s + event_date.month.to_s
+    event_date = date_parse(result_hash["date"])
+    ticketN = count_tickets_bu_date_category(result_hash["category"], event_date).to_s + result_hash["category"] + event_date.day.to_s + event_date.month.to_s
 
     ticket = PurchasedTicket.create(
       ticket_number: ticketN.to_s,
-      category: @params[:category],
-      event_date: @params[:event_date],
+      category: result_hash["category"],
+      event_date: result_hash["date"],
       fullname: @params[:fullname],
       birthdate: @params[:birthdate],
       document_number: @params[:document_number],
