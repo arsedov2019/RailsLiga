@@ -9,6 +9,9 @@
       </configuration>
     </facet>
   </component>
+  <component name="ModuleRunConfigurationManager">
+    <shared />
+  </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$/../../turnstile">
       <sourceFolder url="file://$MODULE_DIR$/../../turnstile/features" isTestSource="true" />
@@ -25,6 +28,10 @@
     </content>
     <orderEntry type="jdk" jdkName="ruby-3.1.2-p20" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="RModuleSettingsStorage">
+    <LOAD_PATH number="0" />
+    <I18N_FOLDERS number="1" string0="$MODULE_DIR$/../../turnstile/config/locales" />
   </component>
   <component name="RailsPaths" isManagedAutomatically="true">
     <entry key="app">

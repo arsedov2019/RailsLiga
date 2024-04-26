@@ -66,6 +66,14 @@ class PurchasedTicketsController < ApplicationController
       return
     end
 
+    if PurchasedTicket.where(event_date: @params[:event_date],
+                             document_number: @params[:document_number],
+                             document_type: @params[:document_type]).size != 0
+      render status: :bad_request, json: {error: :bad_request, description: "Нou have already bought a ticket for this day."}
+      return
+    end
+
+
     ticketN = count_tickets_bu_date_category(@params[:category], event_date).to_s + @params[:category] + event_date.day.to_s + event_date.month.to_s
 
     ticket = PurchasedTicket.create(
@@ -82,7 +90,6 @@ class PurchasedTicketsController < ApplicationController
       render status: :bad_request, json: {name: :bad_request, errors: ticket.errors.objects.all.select(:full_message)}
       return
     end
-
 
     RestClient.delete("http://reservations:4000/reservations",
                       params: { num_reservations: @params[:num_reservations] })
