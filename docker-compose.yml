@@ -13,6 +13,7 @@ services:
     depends_on:
       - reservations
       - turnstile
+      - purchase
   
   reservations:
     build: ./reservations
@@ -57,6 +58,7 @@ services:
       - redis
     environment:
       REDIS_URL: redis://redis:6379/0
+
   db:
     image: postgres:11.5
     environment:

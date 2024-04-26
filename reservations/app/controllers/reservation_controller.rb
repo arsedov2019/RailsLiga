@@ -25,12 +25,9 @@ class ReservationController < ApplicationController
   def show
     result = Reservation.find_by(num_reservations: params[:num_reservations])
     if result
-      render json: {result: true}
+      render json: {result: result}
     else
-      render json: {head: :not_found}
+      render json: {status: :not_found}
     end
   end
-
-
-
 end

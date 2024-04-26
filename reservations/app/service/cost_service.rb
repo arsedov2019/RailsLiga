@@ -2,7 +2,7 @@ class CostService
 
   def initialize(params)
     @params = params
-    @tickets_sold = 1 #ЗАГЛУШКА
+    @tickets_sold = tickets_sold
   end
   def cost
     category = Category.find_by(category: @params[:category])
@@ -14,10 +14,10 @@ class CostService
   private
 
   def tickets_sold
-  RestClient.get("http://СЕРВИС ПО ПОКУПКЕ:5000/tickets", {  #ЗАМЕНИТЬ
+  RestClient.get("http://purchase:5001/count_purchased_ticket", {
       params: {
         category: @params[:category],
-        date: @params[:date],
+        event_date: @params[:date],
       }
     }).to_i
   end

@@ -14,6 +14,11 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
+
+  Rails.application.config.hosts << "purchase:5001"
+  Rails.application.config.hosts << "purchase"
+
+
   # Enable server timing
   config.server_timing = true
 

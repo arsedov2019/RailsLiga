@@ -22,67 +22,79 @@ class PurchasedTicketsController < ApplicationController
       render status: :bad_request, json: {error: :bad_request, description: "Params event date invalid"}
       return
     end
-    tickets = count_tickets_bu_date_category(params[:category], params[:event_date])
+    tickets = count_tickets_bu_date_category(params[:category], params[:event_date])  #?
     render json: {count_ticket: tickets}
   end
 
   # POST /purchased_tickets?
   # Покупка билета.
   def create
-    if params[:num_reservations].nil?
+    @params = params[:params]
+    if @params[:num_reservations].nil?
       render status: :bad_request, json: {error: :bad_request, description: "Params number reservations is empty"}
       return
     end
-    response = RestClient.get('http://reservations:4000/price',
-                              params: { category: params[:category], date: params[:event_date].to_s })
+    response = RestClient.get("http://reservations:4000/reservations",
+                              params: { num_reservations: @params[:num_reservations] })
     result = JSON.parse(response.body)
-    unless result
+
+    if result.has_key? 'status'
       render status: :bad_request, json: {error: :bad_request, description: "There is no such number reservations"}
       return
     end
-    unless check_category(params[:category])
+
+    unless check_category(@params[:category])
       render status: :bad_request, json: {error: :bad_request, description: "Params category invalid"}
       return
     end
-    ticket = PurchasedTicket.create(
-      category: params[:category],
-      event_date: params[:event_date],
-      fullname: params[:fullname],
-      birthdate: params[:birthdate],
-      document_number: params[:document_number],
-      document_type: params[:document_type]
-      )
-    if ticket.invalid?
-      render status: :bad_request, json: {name: :bad_request, errors: ticket.errors.objects.all.select(:full_message)}
-      return
-    end
-    birthdate = date_parse(params[:birthdate])
+
+    birthdate = date_parse(@params[:birthdate])
+
     unless birthdate
       render status: :bad_request, json: {error: :bad_request, description: "Params birthdate invalid"}
       return
     end
-    if (birthdate + 13.years > Date.Today)
+
+    if (birthdate + 13.years > Date.today)
       render status: :bad_request, json: {head: :bad_request, error: "Билет не доступен к покупке пользователям младше 13."}
       return
     end
 
-    event_date = date_parse(params[:event_date])
+    event_date = date_parse(@params[:event_date])
     unless event_date
       render status: :bad_request, json: {error: :bad_request, description: "Params event date invalid"}
       return
     end
 
-    ticket[ticket_number] = count_tickets_bu_date_category(params[:category], event_date).to_s + params[:category] + event_date.day.to_s + event_date.month.to_s
+    ticketN = count_tickets_bu_date_category(@params[:category], event_date).to_s + @params[:category] + event_date.day.to_s + event_date.month.to_s
+
+    ticket = PurchasedTicket.create(
+      ticket_number: ticketN.to_s,
+      category: @params[:category],
+      event_date: @params[:event_date],
+      fullname: @params[:fullname],
+      birthdate: @params[:birthdate],
+      document_number: @params[:document_number],
+      document_type: @params[:document_type]
+    )
+
+    if ticket.invalid?
+      render status: :bad_request, json: {name: :bad_request, errors: ticket.errors.objects.all.select(:full_message)}
+      return
+    end
+
     render status: :created, json: {head: :created, ticket: ticket}
   end
 
 
   # это явно можно было бы как-то по умному сделать.
   private
-  Category = ["vip", "fan"]
+  Category = ["VIP", "FAN"]
 
   def count_tickets_bu_date_category(category, event_date)
-    PurchasedTicket.select{|t| t[:category] == category && t[:event_date] == event_date}.size
+    #PurchasedTicket.select{|t| t[:category] == category && t[:event_date] == event_date}.size
+    t = PurchasedTicket.where(category:category,event_date: event_date).size
+    t + 250
   end
 
   def check_category(category)
