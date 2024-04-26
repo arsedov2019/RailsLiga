@@ -46,11 +46,11 @@ class PurchasedTicketsController < ApplicationController
     end
     ticket = PurchasedTicket.create(
       category: params[:category],
-      category: params[:event_date],
-      category: params[:fullname],
-      category: params[:birthdate],
-      category: params[:document_number],
-      category: params[:document_type]
+      event_date: params[:event_date],
+      fullname: params[:fullname],
+      birthdate: params[:birthdate],
+      document_number: params[:document_number],
+      document_type: params[:document_type]
       )
     if ticket.invalid?
       render status: :bad_request, json: {name: :bad_request, errors: ticket.errors.objects.all.select(:full_message)}
