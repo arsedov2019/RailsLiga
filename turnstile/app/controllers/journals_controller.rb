@@ -35,13 +35,9 @@ class JournalsController < ApplicationController
 
   # POST /journals
   def create
-
-    response = RestClient.get('http://purchase:5001/ticket',
-                              params: { ticket_num: params[:ticket_num]})
-    JSON.parse(response.body)
-
-
-    @journal = Journal.new(journal_params)
+    
+    result = JournalService.create_journal(journal_params)
+    @journal = result
 
     if @journal.save
       render json: @journal, status: :created, location: @journal
@@ -72,6 +68,6 @@ class JournalsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def journal_params
-      params.require(:journal).permit(:ticket_num, :category, :document_num, :name, :status, :is_enter, :date)
+      params.require(:journal).permit(:ticket_num, :category, :document_num, :is_enter)
     end
 end
