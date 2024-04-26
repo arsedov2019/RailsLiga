@@ -19,7 +19,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_25_214513) do
   end
 
   create_table "journals", force: :cascade do |t|
-    t.integer "ticket_num"
+    t.string "ticket_num"
     t.string "category"
     t.datetime "date"
     t.string "name"

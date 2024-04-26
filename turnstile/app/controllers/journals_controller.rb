@@ -35,6 +35,12 @@ class JournalsController < ApplicationController
 
   # POST /journals
   def create
+
+    response = RestClient.get('http://purchase:5001/ticket',
+                              params: { ticket_num: params[:ticket_num]})
+    JSON.parse(response.body)
+
+
     @journal = Journal.new(journal_params)
 
     if @journal.save

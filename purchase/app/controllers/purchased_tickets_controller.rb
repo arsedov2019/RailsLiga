@@ -83,6 +83,10 @@ class PurchasedTicketsController < ApplicationController
       return
     end
 
+
+    RestClient.delete("http://reservations:4000/reservations",
+                      params: { num_reservations: @params[:num_reservations] })
+
     render status: :created, json: {head: :created, ticket: ticket}
   end
 
@@ -93,8 +97,7 @@ class PurchasedTicketsController < ApplicationController
 
   def count_tickets_bu_date_category(category, event_date)
     #PurchasedTicket.select{|t| t[:category] == category && t[:event_date] == event_date}.size
-    t = PurchasedTicket.where(category:category,event_date: event_date).size
-    t + 250
+    PurchasedTicket.where(category:category,event_date: event_date).size
   end
 
   def check_category(category)

@@ -1,7 +1,7 @@
 class CreateJournals < ActiveRecord::Migration[7.1]
   def change
     create_table :journals do |t|
-      t.integer :ticket_num
+      t.string :ticket_num
       t.string :category
       t.datetime :date
       t.string :name

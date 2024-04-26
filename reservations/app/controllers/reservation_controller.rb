@@ -12,8 +12,7 @@ class ReservationController < ApplicationController
 
 
   def destroy
-    Reservation.find_by(num_reservations: params[:num_reservations]).destroy
-
+    result = Reservation.find_by(num_reservations: params[:num_reservations]).destroy
     if result
       render json: {head: :no_content}
     else

@@ -33,28 +33,17 @@ class GatewayApi
 
       desc "Регистрация входа/выхода посетителей"
       params do
-        requires :ticket_num, type: Integer, desc: "Номер билета"
+        requires :ticket_num, type: String, desc: "Номер билета"
         requires :category, type: String, values: %w[VIP FAN], desc: "Категория билета"
         requires :document_num, type: Integer, desc: "Номер документа"
         requires :is_enter, type: Boolean, desc: "Взодим или выходим"
       end
       post do
-        ticket = {
-          ticket_num: 1,
-          category: "VIP",
-          name: "Иван Иванович Иванов",
-          age: 23,
-          document_num: 12345555,
-          document_type: "PASSPORT"
-        }
-
-        # response = RestClient.get('http://tickets:4000/tickets',
-        #                           params: { ticket_num: params[:ticket_num]})
-        # JSON.parse(response.body)
 
         is_blocked = RestClient.get('http://turnstile:8888/black_lists', params: { ticket_num: params[:ticket_num] })
 
         is_blocked = JSON.parse(is_blocked.body);
+
         success = true
 
         unless is_blocked.empty?
